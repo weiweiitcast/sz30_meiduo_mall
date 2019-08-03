@@ -25,15 +25,6 @@ class MeiduoModelBackend(ModelBackend):
             except:
                 return None
 
-
-        if request == None:
-            # 后台管理站点登陆的时候(request为None)
-            # 才需要，判断是否是超级管理员
-            if not user.is_staff:
-                # 如果是超级管理元，才允许后续的操作
-                return None
-
-
         # 判断密码
         if user.check_password(password):
             return user

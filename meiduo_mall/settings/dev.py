@@ -54,6 +54,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_crontab',  # 定时任务
 
+    'rest_framework',
+    'corsheaders',
+
+
     # 完整导包路径
     # 'meiduo_mall.apps.users.apps.UsersConfig',
     'users.apps.UsersConfig',
@@ -68,10 +72,8 @@ INSTALLED_APPS = [
     'meiduo_admin.apps.MeiduoAdminConfig',
 ]
 
-
 MIDDLEWARE = [
-    # 第一行注册
-    # 作用响应跨域请求询问
+    # 首行
     'corsheaders.middleware.CorsMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
@@ -323,3 +325,55 @@ CRONJOBS = [
      '>> ' + os.path.join(os.path.dirname(BASE_DIR), 'logs/crontab.log'))
 ]
 CRONTAB_COMMAND_PREFIX = 'LANG_ALL=zh_cn.UTF-8'  # 支持中文
+
+
+
+# 允许所有源的跨域请求
+# CORS_ORIGIN_ALLOW_ALL = True
+
+# 允许白名单中的源的跨域请求
+CORS_ORIGIN_WHITELIST = (
+    "127.0.0.1:8080",
+    # "127.0.0.1" # 默认端口80
+)
+
+# 跨域请求的允许的请求方式（GET,POST...）
+# CORS_ALLOW_METHODS = [
+#     "POST",
+# ]
+
+# 8080服务器在浏览器中存cookie
+# 可以在跨域请求的时候携带这样的cookie
+CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+# 2019-8-2 12：05：55 --> 时间点（时刻） --> datetime(2019,8,3)时间点对象
+# datetime(2019,8,3) - datetime(2019,8,2) --> timedelta(days=1)
+# 3天 --> 时间段（一段时间）--> timedelta(days=1) --> "一天"
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'meiduo_admin.utils.jwt_response_handlers.customer_jwt_response_handler', # 指明构建响应数据的函数
+}
+
+
+# from rest_framework_jwt.utils import jwt_response_payload_handler
+
+
+
+
+
+
+
+
+
+
+
+
