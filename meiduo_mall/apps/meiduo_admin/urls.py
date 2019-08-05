@@ -3,6 +3,8 @@ from django.conf.urls import url, include
 from rest_framework_jwt.views import obtain_jwt_token
 from meiduo_admin.views.login_views import *
 from meiduo_admin.views.home_views import *
+from meiduo_admin.views.user_views import UserAPIView
+
 from rest_framework.routers import SimpleRouter
 
 urlpatterns = [
@@ -15,6 +17,8 @@ urlpatterns = [
     # url(r'^statistical/day_active/$', HomeView.as_view({"get":"day_active"})),
 
     url(r'^statistical/goods_day_views/$', GoodsVisitCountView.as_view()),
+
+    url(r'^users/$', UserAPIView.as_view()),
 ]
 
 router = SimpleRouter()

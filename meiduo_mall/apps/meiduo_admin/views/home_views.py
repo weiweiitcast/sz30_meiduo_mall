@@ -3,6 +3,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAdminUser,AllowAny
 from django.conf import settings
 
 from orders.models import OrderInfo
@@ -16,6 +17,24 @@ from django.utils import timezone
 import pytz
 
 class HomeView(ViewSet):
+    permission_classes = [IsAdminUser]
+
+    # 重写函数，实现对特定接口的权限限制
+    # def get_permissions(self):
+    #     """
+    #     处理的视图函数是totoal_count时，所用的权限检查类对象是IsAdminUser
+    #     别的视图处理函数，所使用的权限检查类对象是AllowAny
+    #     :return: 权限检查类对象
+    #     """
+    #     # if 视图方法是total_count：
+    #     #     返回 [IsAdminUser()]
+    #     # 返回 [AllowAny()]
+    #
+    #     # self.action代表的是档前请求，视图对象所采用的视图方法
+    #     if self.action == "total_count" or self.action == "day_increment":
+    #         return [IsAdminUser()] # 后续权限校验，会依次提取该列表中的权限检查对象，进行检查
+    #     return [AllowAny()]
+
 
     @action(methods=['get'], detail=False)
     def total_count(self, request):
@@ -128,6 +147,8 @@ class HomeView(ViewSet):
 
 
 class GoodsVisitCountView(ListAPIView):
+    permission_classes = [IsAdminUser]
+
     queryset = GoodsVisitCount.objects.all()
     serializer_class = GoodsVisitCountSerializer
 
