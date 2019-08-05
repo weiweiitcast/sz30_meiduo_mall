@@ -356,21 +356,11 @@ REST_FRAMEWORK = {
 }
 
 # 2019-8-2 12：05：55 --> 时间点（时刻） --> datetime(2019,8,3)时间点对象
-# datetime(2019,8,3) - datetime(2019,8,2) --> timedelta(days=1)
 # 3天 --> 时间段（一段时间）--> timedelta(days=1) --> "一天"
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'meiduo_admin.utils.jwt_response_handlers.customer_jwt_response_handler', # 指明构建响应数据的函数
 }
-
-
-# from rest_framework_jwt.utils import jwt_response_payload_handler
-
-
-
-
-
-
 
 
 
