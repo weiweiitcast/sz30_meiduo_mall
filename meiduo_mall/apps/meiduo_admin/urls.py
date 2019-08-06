@@ -4,6 +4,9 @@ from rest_framework_jwt.views import obtain_jwt_token
 from meiduo_admin.views.login_views import *
 from meiduo_admin.views.home_views import *
 from meiduo_admin.views.user_views import UserAPIView
+from meiduo_admin.views.sku_views import *
+from meiduo_admin.views.spu_views import *
+from meiduo_admin.views.spec_views import *
 
 from rest_framework.routers import SimpleRouter
 
@@ -19,8 +22,45 @@ urlpatterns = [
     url(r'^statistical/goods_day_views/$', GoodsVisitCountView.as_view()),
 
     url(r'^users/$', UserAPIView.as_view()),
+
+    url(r'^skus/$', SKUViewSet.as_view({"get":"list", "post":"create"})),
+
+    url(r'^skus/(?P<pk>\d+)/$', SKUViewSet.as_view({"get":"retrieve",
+                                                    "put":"update",
+                                                    "delete":"destroy"})),
+
+    url(r'^skus/categories/$', SKUCategoryView.as_view()),
+    url(r'^goods/simple/$', SPUSimpleView.as_view()),
+    url(r'^goods/(?P<pk>\d+)/specs/$', SPUSpecView.as_view()),
+
+
+    url(r'^goods/$', SPUViewSet.as_view({"get":"list", "post":"create"})),
+    url(r'^goods/(?P<pk>\d+)/$', SPUViewSet.as_view({"get":"retrieve",
+                                                     "put":"update",
+                                                     "delete":"destroy"})),
+
+    url(r'^goods/brands/simple/$', BrandSimpleView.as_view()),
+
+    url(r'^goods/channel/categories/$', GoodsCategorySimpleView.as_view()),
+    url(r'^goods/channel/categories/(?P<pk>\d+)/$', GoodsCategorySimpleView.as_view()),
+
+
+    url(r'^goods/specs/$', SpecViewSet.as_view({"get":"list", "post":"create"})),
+    url(r'^goods/specs/(?P<pk>\d+)/$', SpecViewSet.as_view({"get":"retrieve",
+                                                            "put":"update",
+                                                            "delete":"destroy"})),
 ]
 
 router = SimpleRouter()
+
 router.register(prefix="statistical", viewset=HomeView, base_name="home")
+
+# SPU
+# /goods/(?P<pk>[^/.]+)/  -->  goods/specs/ -->  {"pk": "specs"}
+# router.register(prefix='goods', viewset=SPUViewSet, base_name='spu')
+# SPEC
+# /goods/specs/
+# router.register(prefix='goods/specs', viewset=SpecViewSet, base_name='specs')
+
+
 urlpatterns += router.urls
