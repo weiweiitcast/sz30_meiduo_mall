@@ -7,6 +7,9 @@ from meiduo_admin.views.user_views import UserAPIView
 from meiduo_admin.views.sku_views import *
 from meiduo_admin.views.spu_views import *
 from meiduo_admin.views.spec_views import *
+from meiduo_admin.views.option_views import *
+from meiduo_admin.views.image_views import *
+from meiduo_admin.views.order_views import *
 
 from rest_framework.routers import SimpleRouter
 
@@ -49,6 +52,26 @@ urlpatterns = [
     url(r'^goods/specs/(?P<pk>\d+)/$', SpecViewSet.as_view({"get":"retrieve",
                                                             "put":"update",
                                                             "delete":"destroy"})),
+
+    url(r'^specs/options/$', OptionViewSet.as_view({"get":"list", "post":"create"})),
+    url(r'^specs/options/(?P<pk>\d+)/$', OptionViewSet.as_view({"delete":"destroy",
+                                                                "get":"retrieve",
+                                                                "put":"update"})),
+
+
+    url(r'^goods/specs/simple/$', OptSpecView.as_view()),
+
+
+    url(r'^skus/images/$', ImageViewSet.as_view({"get":"list", "post":"create"})),
+    url(r'^skus/images/(?P<pk>\d+)/$', ImageViewSet.as_view({"get":"retrieve",
+                                                             "put":"update",
+                                                             "delete":"destroy"})),
+
+    url(r'^skus/simple/$', SKUSimpleView.as_view()),
+
+    url(r'^orders/$', OrderView.as_view()),
+    url(r'^orders/(?P<pk>\d+)/$', OrderDetailView.as_view()),
+    url(r'^orders/(?P<pk>\d+)/status/$', OrderDetailView.as_view()),
 ]
 
 router = SimpleRouter()
@@ -64,3 +87,15 @@ router.register(prefix="statistical", viewset=HomeView, base_name="home")
 
 
 urlpatterns += router.urls
+
+
+
+
+
+# from fdfs_client.client import Fdfs_client
+# conn = Fdfs_client()
+# 上传本地文件
+# conn.upload_by_filename('./')
+# 上传文件数据
+# conn.upload_by_buffer()
+

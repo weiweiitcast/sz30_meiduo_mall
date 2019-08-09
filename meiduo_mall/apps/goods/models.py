@@ -140,7 +140,7 @@ class SKU(BaseModel):
 
 
 class SKUSpecification(BaseModel):
-    """SKU具体规格"""
+    """SKU具体规格,中间表"""
     sku = models.ForeignKey(SKU, related_name='specs', on_delete=models.CASCADE, verbose_name='sku')
     spec = models.ForeignKey(SPUSpecification, related_name="specs", on_delete=models.PROTECT, verbose_name='规格名称')
     option = models.ForeignKey(SpecificationOption, on_delete=models.PROTECT, verbose_name='规格值')
