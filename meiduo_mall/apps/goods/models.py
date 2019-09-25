@@ -154,7 +154,6 @@ class SKUSpecification(BaseModel):
         return '%s: %s - %s' % (self.sku, self.spec.name, self.option.value)
 
 
-
 class SKUImage(BaseModel):
     """SKU图片"""
     sku = models.ForeignKey(SKU, on_delete=models.CASCADE, verbose_name='sku')

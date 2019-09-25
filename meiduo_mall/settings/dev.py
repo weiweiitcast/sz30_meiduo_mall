@@ -54,8 +54,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_crontab',  # 定时任务
 
+
+    # 第三方
     'rest_framework',
-    'corsheaders',
 
 
     # 完整导包路径
@@ -295,7 +296,7 @@ EMAIL_VERIFY_URL = 'http://www.meiduo.site:8000/emails/verification/'
 # fdfs的访问域名
 # FDFS_URL = 'http://image.meiduo.site:8888/'
 FDFS_URL = 'http://192.168.203.151:8888/'
-# 指定文件存储类型
+# 指定默认文件存储类型
 DEFAULT_FILE_STORAGE = 'meiduo_mall.utils.fdfs.storage.FdfsStorage'
 
 # Haystack
@@ -325,45 +326,3 @@ CRONJOBS = [
      '>> ' + os.path.join(os.path.dirname(BASE_DIR), 'logs/crontab.log'))
 ]
 CRONTAB_COMMAND_PREFIX = 'LANG_ALL=zh_cn.UTF-8'  # 支持中文
-
-
-
-# 允许所有源的跨域请求
-# CORS_ORIGIN_ALLOW_ALL = True
-
-# 允许白名单中的源的跨域请求
-CORS_ORIGIN_WHITELIST = (
-    "127.0.0.1:8080",
-    # "127.0.0.1" # 默认端口80
-)
-
-# 跨域请求的允许的请求方式（GET,POST...）
-# CORS_ALLOW_METHODS = [
-#     "POST",
-# ]
-
-# 8080服务器在浏览器中存cookie
-# 可以在跨域请求的时候携带这样的cookie
-CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
-}
-
-# 2019-8-2 12：05：55 --> 时间点（时刻） --> datetime(2019,8,3)时间点对象
-# 3天 --> 时间段（一段时间）--> timedelta(days=1) --> "一天"
-JWT_AUTH = {
-    # 'JWT_VERIFY_EXPIRATION': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=100),
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'meiduo_admin.utils.jwt_response_handlers.customer_jwt_response_handler', # 指明构建响应数据的函数
-}
-
-
-
-FDFS_CONF_PATH = os.path.join(BASE_DIR, 'client.conf')
-

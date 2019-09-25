@@ -1,12 +1,14 @@
 from django.core.files.storage import Storage
 from django.conf import settings
-
+from django.utils import timezone
+from fdfs_client.client import Fdfs_client
+from rest_framework import serializers
 
 class FdfsStorage(Storage):
-    def open(self, name, mode='rb'):
+    def _open(self, name, mode='rb'):
         pass
 
-    def save(self, name, content, max_length=None):
+    def _save(self, name, content, max_length=None):
         pass
 
     def url(self, name):

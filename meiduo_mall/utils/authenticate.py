@@ -25,11 +25,6 @@ class MeiduoModelBackend(ModelBackend):
             except:
                 return None
 
-        # 后台管理站点登陆的时候，不会传入request
-        if not request and not user.is_staff:
-            return None
-
-
         # 判断密码
         if user.check_password(password):
             return user
