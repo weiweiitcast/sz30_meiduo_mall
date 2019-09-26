@@ -42,7 +42,6 @@ ALLOWED_HOSTS = [
     "backend.meiduo.site" # 用作负载均衡的集群服务器域名
 ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -57,6 +56,7 @@ INSTALLED_APPS = [
 
     # 第三方
     'rest_framework',
+    'corsheaders',
 
 
     # 完整导包路径
@@ -74,7 +74,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    # 首行
+    # 作用：对所有对请求做检查，检查是否是OPTIONS请求，以及是否请求的源是被允许的
     'corsheaders.middleware.CorsMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
@@ -326,3 +326,35 @@ CRONJOBS = [
      '>> ' + os.path.join(os.path.dirname(BASE_DIR), 'logs/crontab.log'))
 ]
 CRONTAB_COMMAND_PREFIX = 'LANG_ALL=zh_cn.UTF-8'  # 支持中文
+
+
+
+# 跨域白名单
+CORS_ORIGIN_WHITELIST = (
+    '127.0.0.1:8080',
+)
+CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 在请求的头部提取token值进行验证
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # 认证器
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+
+
+# 'JWT_RESPONSE_PAYLOAD_HANDLER':
+# 'rest_framework_jwt.utils.jwt_response_payload_handler',
+
+
+JWT_AUTH = {
+    # 设置签发的token的有效期
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=100),
+    # 指明jwt的obtain_jwt_token视图构建最终响应数据的函数
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'meiduo_mall.utils.custom_jwt_response_handler.jwt_response_payload_handler',
+}
